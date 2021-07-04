@@ -8,6 +8,12 @@ const { interface, bytecode } = require("../compile");
 let lottery;
 let accounts;
 
-beforeEach(async ()=>{
+beforeEach(async () => {
+  accounts = await web3.eth.getAccounts();
 
-})
+  lottery = await new web3.eth.Contract(JSON.parse(interface))
+    .deploy({
+      data: bytecode,
+    })
+    .send({ from: accounts[0], gas: "1000000" });
+});
